@@ -83,13 +83,48 @@ scene.add(camera); */
 
 // ============================================================================
 
-const camera = new THREE.PerspectiveCamera(
+const aspect = window.innerWidth / window.innerHeight;
+
+// Perspective Camera: Creates a camera that mimics human vision with depth and perspective.
+/* How it works:
+- The first parameter (80) sets the field of view (FOV) in degrees (how wide the camera view is).
+- The second parameter is the aspect ratio (width/height of the canvas) to avoid image distortion.
+- The third and fourth parameters define the near (0.1) and far (300) clipping planes.
+  Objects outside this range won't be rendered.
+- The `position.set(3, 3, 3)` places the camera at (x: 3, y: 3, z: 3) in the 3D space.
+- `lookAt(0, 0, 0)` makes the camera point towards the origin (center of the scene). */
+
+const perspectiveCamera = new THREE.PerspectiveCamera(
   80,
   window.innerWidth / window.innerHeight,
   0.1,
   300
 );
-camera.position.z = 4;
+perspectiveCamera.position.set(3, 3, 3);
+perspectiveCamera.lookAt(0, 0, 0);
+
+// ===========================================================================
+
+// Orthographic Camera: Creates a camera for rendering objects without perspective distortion.
+/* How it works:
+- Instead of a field of view, this camera uses a "box" to define its view.
+  The box is defined by the left, right, top, and bottom boundaries.
+- Here, we calculate the left/right boundaries using the aspect ratio to ensure it matches the canvas size. */
+/* - The first four parameters (-2 * aspect, 2 * aspect, 2, -2) define the visible area of the camera.
+  Objects outside this box will not be visible.
+- The last two parameters (0.1 and 100) define the near and far clipping planes.
+- The camera is positioned at (3, 3, 3) and looks towards the origin (0, 0, 0) like the Perspective Camera. */
+
+const orthoCamera = new THREE.OrthographicCamera(
+  -1 * aspect, // Left boundary (scaled by aspect ratio)
+  1 * aspect, // Right boundary (scaled by aspect ratio)
+  1, // Top boundary
+  -1, // Bottom boundary
+  0.1, // Near clipping plane
+  300 // Far clipping plane
+);
+orthoCamera.position.set(3, 3, 3);
+orthoCamera.lookAt(0, 0, 0);
 
 // ============================================================================
 
@@ -185,10 +220,16 @@ controls.update(); // Required for damping to work. */
 - Smooth movement not working? Set `controls.enableDamping = true` and call `controls.update()` on each frame. */
 
 // ============================================================================
+// Set initial camera to orthographic
+let currentCamera = orthoCamera;
 
-const controls = new OrbitControls(camera, canvas);
+// Add OrbitControls for both cameras
+const controls = new OrbitControls(currentCamera, canvas);
 controls.autoRotate = true;
 controls.enableDamping = true;
+controls.enableZoom = false;
+controls.dampingFactor = 0.05;
+controls.update();
 
 // ============================================================================
 
@@ -213,13 +254,45 @@ How it works: */
 - High CPU usage? Consider limiting the frame rate or using a conditional `req */
 
 // ============================================================================
-
+// Switch between cameras
 // Example usage:
 const renderLoop = () => {
-  controls.update(); // Keeps the OrbitControls smooth
-  renderer.render(scene, camera); // Renders the scene from the perspective of the camera
+  controls.update(); // Keep the controls smooth
+  renderer.render(scene, currentCamera); // Render using the current camera
   window.requestAnimationFrame(renderLoop); // Recursively calls renderLoop for the next frame
 };
 
 // Start the rendering process
 renderLoop();
+// Toggle between Orthographic and Perspective Cameras using the "c" key
+window.addEventListener("keydown", (event) => {
+  if (event.key === "c") {
+    if (currentCamera === orthoCamera) {
+      currentCamera = perspectiveCamera;
+    } else {
+      currentCamera = orthoCamera;
+    }
+    // Update controls with the new camera
+    controls.object = currentCamera;
+    controls.update();
+  }
+});
+
+// Handle window resize
+window.addEventListener("resize", () => {
+  const newAspect = window.innerWidth / window.innerHeight;
+
+  // Update Perspective Camera
+  perspectiveCamera.aspect = newAspect;
+  perspectiveCamera.updateProjectionMatrix();
+
+  // Update Orthographic Camera
+  orthoCamera.left = -2 * newAspect;
+  orthoCamera.right = 2 * newAspect;
+  orthoCamera.top = 2;
+  orthoCamera.bottom = -2;
+  orthoCamera.updateProjectionMatrix();
+
+  // Update renderer size
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
