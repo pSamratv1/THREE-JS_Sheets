@@ -12,18 +12,18 @@ const scene = new THREE.Scene();
 // ============================================================================
 
 const cubeGemoetry = new THREE.BoxGeometry(1, 1, 1);
-const cubeMaterial = new THREE.MeshBasicMaterial({ color: "red" });
+const cubeMaterial = new THREE.MeshBasicMaterial({
+  color: "red",
+  wireframe: true,
+});
 const cube = new THREE.Mesh(cubeGemoetry, cubeMaterial);
 scene.add(cube);
 
 // ============================================================================
 
 // ============================================================================
-const axesHelper = new THREE.AxesHelper(5);
+const axesHelper = new THREE.AxesHelper(3);
 scene.add(axesHelper);
-
-cube.position.y = 1;
-
 // ============================================================================
 /* Camera: Determines the viewpoint from which the scene is rendered. */
 // ============================================================================
@@ -57,7 +57,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Add OrbitControls for both cameras
 const controls = new OrbitControls(perspectiveCamera, canvas);
-controls.autoRotate = true;
+controls.autoRotate = false;
 controls.enableDamping = true;
 controls.enableZoom = false;
 controls.dampingFactor = 0.05;
@@ -67,10 +67,23 @@ controls.update();
 
 // Render Loop: Continuously renders the scene and updates controls for smooth animations.
 // ============================================================================
-
+const clock = new THREE.Clock();
+let previousTime = 0;
 const renderLoop = () => {
-  controls.update(); // Keep the controls smooth
+  const currentTime = clock.getElapsedTime();
+  const delta = currentTime - previousTime;
+  previousTime = currentTime;
 
+  // cube.scale.x += delta * 0.5;
+  // cube.scale.x += Math.sin(delta);
+  // cube.scale.x = Math.sin(currentTime) + 2;
+  cube.scale.z = Math.sin(currentTime);
+
+  // cube.rotation.y += THREE.MathUtils.degToRad(1) * delta * 20;
+
+  // console.log(THREE.MathUtils.degToRad(1));
+
+  controls.update(); // Keep the controls smooth
   renderer.render(scene, perspectiveCamera); // Render using the current camera
   window.requestAnimationFrame(renderLoop); // Recursively calls renderLoop for the next frame
 };
@@ -123,6 +136,3 @@ window.addEventListener("resize", () => {
   perspectiveCamera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
-
-
-
