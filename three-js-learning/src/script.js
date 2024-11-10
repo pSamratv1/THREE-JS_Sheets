@@ -95,13 +95,12 @@ const aspect = window.innerWidth / window.innerHeight;
 - `lookAt(0, 0, 0)` makes the camera point towards the origin (center of the scene). */
 
 const perspectiveCamera = new THREE.PerspectiveCamera(
-  80,
+  60,
   window.innerWidth / window.innerHeight,
   0.1,
   300
 );
 perspectiveCamera.position.set(3, 3, 3);
-perspectiveCamera.lookAt(0, 0, 0);
 
 // ===========================================================================
 
@@ -124,7 +123,6 @@ const orthoCamera = new THREE.OrthographicCamera(
   300 // Far clipping plane
 );
 orthoCamera.position.set(3, 3, 3);
-orthoCamera.lookAt(0, 0, 0);
 
 // ============================================================================
 
