@@ -17,6 +17,14 @@ const cube = new THREE.Mesh(cubeGemoetry, cubeMaterial);
 scene.add(cube);
 
 // ============================================================================
+
+// ============================================================================
+const axesHelper = new THREE.AxesHelper(5);
+scene.add(axesHelper);
+
+cube.position.y = 1;
+
+// ============================================================================
 /* Camera: Determines the viewpoint from which the scene is rendered. */
 // ============================================================================
 
@@ -115,3 +123,6 @@ window.addEventListener("resize", () => {
   perspectiveCamera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+
+
