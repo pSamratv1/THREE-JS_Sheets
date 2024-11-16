@@ -29,3 +29,19 @@
 
 // .toJSON(meta : Object) : Object
 // - Converts the Light instance to a three.js JSON Object/Scene format.
+
+// ===== AmbientLight =====
+
+// Provides global illumination affecting all objects equally.
+// No shadows can be cast because it lacks a direction.
+
+// Constructor:
+// AmbientLight(color : Integer, intensity : Float)
+// - color (optional): Hexadecimal color of the light, default is 0xffffff.
+// - intensity (optional): Strength of the light, default is 1.
+
+// Properties:
+// Inherits properties from Light.
+
+// .isAmbientLight : Boolean
+// - Read-only flag to check if an object is an AmbientLight.
