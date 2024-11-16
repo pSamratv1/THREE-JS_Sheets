@@ -151,3 +151,35 @@
 
 // .copy(source : SpotLight) : this
 // - Copies properties from another SpotLight.
+
+// ===== LightShadow =====
+
+// Base class for all shadow-related calculations.
+// Not instantiated directly, used by shadow-casting lights like DirectionalLight and SpotLight.
+
+// Constructor:
+// LightShadow(camera : Camera)
+// - camera: Used to capture depth data for shadows.
+
+// Properties:
+// .autoUpdate : Boolean
+// - Enables dynamic shadow updates. Set to false for static scenes.
+
+// .bias : Float
+// - Shadow map bias to reduce artifacts. Default is 0 (tweak to fix shadow acne).
+
+// .mapSize : Vector2
+// - Resolution of the shadow map. Higher values increase quality but cost more processing power.
+
+// .radius : Float
+// - Controls shadow edge blurring (not effective with PCFSoftShadowMap).
+
+// Methods:
+// .getFrameExtents() : Vector2
+// - Used internally for extending shadow map viewports.
+
+// .updateMatrices(light : Light)
+// - Updates shadow matrices based on light position and orientation.
+
+// .dispose()
+// - Releases GPU resources when the shadow is no longer needed.
