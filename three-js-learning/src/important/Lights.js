@@ -81,3 +81,35 @@
 
 // .copy(source : DirectionalLight) : this
 // - Copies all properties from the source light.
+
+// ===== PointLight =====
+
+// Emits light in all directions from a single point (like a bare bulb).
+// Can cast shadows, but it's computationally expensive.
+
+// Constructor:
+// PointLight(color : Integer, intensity : Float, distance : Number, decay : Float)
+// - color (optional): Light color, default is 0xffffff.
+// - intensity (optional): Light strength, default is 1.
+// - distance: Maximum range, default is 0 (no limit).
+// - decay: Light decay over distance, default is 2.
+
+// Properties:
+// .castShadow : Boolean
+// - Enables shadows if set to true (default is false).
+
+// .distance : Float
+// - Controls light falloff. If set to 0, attenuation follows the inverse-square law.
+
+// .decay : Float
+// - Light diminishes over distance. Default is 2 for physically correct rendering.
+
+// .power : Float
+// - Measured in lumens (lm). Adjusting power also affects intensity.
+
+// Methods:
+// .dispose()
+// - Clean up GPU resources when not in use.
+
+// .copy(source : PointLight) : this
+// - Copies all properties from another PointLight.
