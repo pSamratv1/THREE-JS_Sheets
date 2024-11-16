@@ -113,3 +113,41 @@
 
 // .copy(source : PointLight) : this
 // - Copies all properties from another PointLight.
+
+// ===== SpotLight =====
+
+// Emits light in a cone shape from a single point in a specific direction.
+// Can cast shadows and be used for focused lighting (like a flashlight).
+
+// Constructor:
+// SpotLight(color : Integer, intensity : Float, distance : Float, angle : Radians, penumbra : Float, decay : Float)
+// - color (optional): Light color, default is 0xffffff.
+// - intensity (optional): Strength, default is 1.
+// - distance: Maximum range, default is 0 (no limit).
+// - angle: Cone spread angle, max is Math.PI/2.
+// - penumbra: Soft edge (0-1), default is 0.
+// - decay: Light decay over distance, default is 2.
+
+// Properties:
+// .angle : Float
+// - Cone angle of the spotlight. Default is Math.PI/3.
+
+// .penumbra : Float
+// - Softness of spotlight edges, default is 0.
+
+// .target : Object3D
+// - Like DirectionalLight, points to a target.
+// - Update target using scene.add(light.target).
+
+// .castShadow : Boolean
+// - Allows shadows if set to true (default is false).
+
+// .map : Texture
+// - Optional texture for modulating light color (disabled if .castShadow is false).
+
+// Methods:
+// .dispose()
+// - Frees GPU resources.
+
+// .copy(source : SpotLight) : this
+// - Copies properties from another SpotLight.
