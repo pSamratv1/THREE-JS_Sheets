@@ -45,3 +45,39 @@
 
 // .isAmbientLight : Boolean
 // - Read-only flag to check if an object is an AmbientLight.
+
+// ===== DirectionalLight =====
+
+// Emits light in a specific direction, simulating sunlight.
+// Rays are parallel, creating uniform lighting like the sun.
+// Can cast shadows (expensive, requires tweaking).
+
+// Constructor:
+// DirectionalLight(color : Integer, intensity : Float)
+// - color (optional): Hexadecimal color, default is 0xffffff.
+// - intensity (optional): Light strength, default is 1.
+
+// Properties:
+// .castShadow : Boolean
+// - Enables dynamic shadows if set to true (default is false).
+
+// .isDirectionalLight : Boolean
+// - Read-only flag to check if an object is a DirectionalLight.
+
+// .position : Vector3
+// - By default, (0, 1, 0) so it shines top-down.
+
+// .target : Object3D
+// - The light points from its position to the target position (default is (0, 0, 0)).
+// - To change the target, add it to the scene (scene.add(light.target)).
+// - Can track another object’s position.
+
+// .shadow : DirectionalLightShadow
+// - Used to calculate shadows.
+
+// Methods:
+// .dispose()
+// - Frees up GPU resources when no longer needed.
+
+// .copy(source : DirectionalLight) : this
+// - Copies all properties from the source light.
